@@ -1,0 +1,423 @@
+FORMAT: 1A
+HOST: http://testing.testing.testing/api
+
+# SPM Project
+
+APIs for SPM project Car Wash App
+
+# Group User
+
+### Client Signup [POST /signup]
+
++ Request (application/json)
+
+            {
+                "FirstName": "Hello",
+                "LastName": "World",
+                "Email": "hello.world@gmail.com",
+                "Password": "123456"
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error message"
+            }
+
+### User Signin [POST /signin]
+
++ Request (application/json)
+
+            {
+                "Email": "hello.world@gmail.com",
+                "Password": "123456"
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+                "content": {
+                    "Admin": true   // true if the user is admin
+                }
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error message"
+            }
+
+### Signout [GET /signout]
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+            }
+
+## Client profile [/profile]
+
+### Get profile [GET]
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!",
+                "content": {
+                    "FirstName": "Steven",
+                    "LastName": "",
+                    "Email": "sample@gmail.com", //May or may not be used
+                    "Admin": true,    // if is admin, will be omitted otherwise
+                    "Address": "161 Barry St, Carlton VIC 3053",
+                    "Mobile": "(+61) 0000000000",
+                    "Home": "(+61) 0000000000",
+                    "Work": "(+61) 0000000000",
+                    "CarInfo": "descriptions about cars, etc.",
+                    "CarType": "SUV",
+                }
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+### Edit profile [PUT]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "FirstName": "Steven",
+                "LastName": "",
+                "Address": "161 Barry St, Carlton VIC 3053",
+                "Mobile": "(+61) 0000000000",
+                "Home": "(+61) 0000000000",
+                "Work": "(+61) 0000000000",
+                "CarType": "SUV",
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+## Appointment [/appointment]
+
+Appointment related APIs.
+
+### Get all appointments [GET]
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!",
+                "content": [
+                    {
+                        "ID": 1,
+                        "Time": "2019-10-02T01:20:00.000Z",
+                        "CarType": "SUV",
+                        "Option": 1,
+                        "Comment": "comment here",
+                        "Address": ""
+                    }
+                ]
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+### Create a new appointment [POST]
+
++ Request
+
+    + Body
+
+            {
+                "Time": "2019-10-02T01:20:00.000Z",
+                "CarType": "SUV",
+                "Option": 1,  // 1, 2, 3
+                "Comment": ""
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+### Edit an existed appointment [PUT]
+
++ Request
+
+    + Body
+
+            {
+                "ID": 1,
+                "Time": "2019-10-02T01:20:00.000Z",
+                "CarType": "SUV",
+                "Option": 1,
+                "Comment": ""
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+### Cancel an existed appointment [DELETE]
+
++ Request
+
+    + Body
+
+            {
+                "ID": 1
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!"
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+## Get all appointments [/all]
+
+## Get all appointment [GET]
+
+Server only get the date value of "From" and "To".  
+So "2019-10-02T01:20:00.000Z" and "2019-10-02T09:20:00.000Z" are the same (2019-10-02).  
+
+If the user is not admin, only "Time" will be returned.
+
++ Request
+
+    + Body
+
+            {
+                "From": "2019-10-02T01:20:00.000Z",    // if not set, From = current date
+                "To": "2019-10-02T01:20:00.000Z"       // if not set, To = From + 10 days
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!",
+                "content": [
+                    {
+                        "ID": 5,
+                        "UserID": 2,
+                        "Time": "2019-10-10T05:20:00Z",
+                        "Option": 2,
+                        "Comment": "test 3",
+                        "CarType": "SUV",
+                        "User": {
+                            "ID": 2,
+                            "FirstName": "b",
+                            "LastName": "b",
+                            "Email": "b@gmail.com"
+                        }
+                    },
+                    {
+                        "ID": 6,
+                        "UserID": 4,
+                        "Time": "2019-10-16T03:00:00Z",
+                        "Option": 2,
+                        "Comment": "25 fsefagr/",
+                        "CarType": "Hatchback",
+                        "User": {
+                            "ID": 4,
+                            "FirstName": "User",
+                            "LastName": "0",
+                            "Email": "user0@example.com",
+                            "Address": "Example address"
+                        }
+                    },
+                    {
+                        "ID": 8,
+                        "UserID": 4,
+                        "Time": "2019-10-16T01:00:00Z",
+                        "Option": 3,
+                        "Comment": "25 fsefagr/12",
+                        "CarType": "SUV",
+                        "User": {
+                            "ID": 4,
+                            "FirstName": "User",
+                            "LastName": "0",
+                            "Email": "user0@example.com",
+                            "Address": "Example address"
+                        }
+                    },
+                    {
+                        "ID": 9,
+                        "UserID": 1,
+                        "Time": "2019-10-10T07:20:00Z",
+                        "Option": 2,
+                        "Comment": "testing",
+                        "CarType": "SUV",
+                        "User": {
+                            "ID": 1,
+                            "Admin": true,
+                            "FirstName": "a",
+                            "LastName": "a",
+                            "Email": "a@gmail.com"
+                        }
+                    },
+                    {
+                        "ID": 10,
+                        "UserID": 4,
+                        "Time": "2019-10-18T02:00:00Z",
+                        "Option": 1,
+                        "CarType": "SUV",
+                        "User": {
+                            "ID": 4,
+                            "FirstName": "User",
+                            "LastName": "0",
+                            "Email": "user0@example.com",
+                            "Address": "Example address"
+                        }
+                    },
+                    {
+                        "ID": 12,
+                        "UserID": 1,
+                        "Time": "2019-10-10T08:20:00Z",
+                        "Option": 2,
+                        "Comment": "testing",
+                        "CarType": "SUV",
+                        "User": {
+                            "ID": 1,
+                            "Admin": true,
+                            "FirstName": "a",
+                            "LastName": "a",
+                            "Email": "a@gmail.com"
+                        }
+                    },
+                    {
+                        "ID": 13,
+                        "UserID": 2,
+                        "Time": "2019-10-10T09:20:00Z",
+                        "Option": 2,
+                        "Comment": "testing123",
+                        "CarType": "SUV",
+                        "User": {
+                            "ID": 2,
+                            "FirstName": "b",
+                            "LastName": "b",
+                            "Email": "b@gmail.com"
+                        }
+                    }
+                ]
+            }
+
++ Response 400
+
+    + Body
+
+            {
+                "message": "error"
+            }
+
+# Group Admin
+
+Here are APIs that only admin can access
+
+## User profile [/profile/{id}]
+
+### Get user profile [GET]
+
++ Parameters
+    + id - User id
+
++ Response 200
+
+    + Body
+
+            {
+                "message": "Success!",
+                "content": {
+                    "FirstName": "Steven",
+                    "LastName": "",
+                    "Email": "sample@gmail.com",
+                    "Admin": true,    // if is admin, will be omitted otherwise
+                    "Address": "161 Barry St, Carlton VIC 3053",
+                    "Mobile": "(+61) 0000000000",
+                    "Home": "(+61) 0000000000",
+                    "Work": "(+61) 0000000000",
+                    "CarInfo": "descriptions about cars, etc.",
+                    "CarType": "SUV",
+                }
+            }

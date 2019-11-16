@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation</title>
+</head>
+<body>
+
+Dear {{.FirstName}}, <br>
+<br>
+This is a confirmation email of {{.Action}} your appointment in our website.
+Here are the details of this appointment.
+
+<ul>
+    <li>Date: {{.Date}}</li>
+    <li>Price: {{.Price}}</li>
+    <li>Comment: {{.Comment}}</li>
+</ul>
+
+<br>
+
+Thank you for using our service. <br>
+
+Gabriel and David <br>
+
+</body>
+</html>

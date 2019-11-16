@@ -1,0 +1,13 @@
+# vendor file
+/vendor/*
+!/vendor/vendor.json
+
+# all the config files
+*.config
+
+# database seed files
+/model/seed/*
+
+# execute files
+*.exe
+*.o
